@@ -3,7 +3,7 @@ public class TaskCLI {
         TaskManager manager = new TaskManager();
 
         if(args.length == 0) {
-            System.out.println("Tell me what to do,");
+            System.out.println("Please proved a command.");
             return;
         }
         String command = args[0];
@@ -28,7 +28,7 @@ public class TaskCLI {
                 System.out.println("List command selected.");
                 break;
             default:
-                System.out.println("Unkown command.");
+                System.out.println("Unknown command.");
         }
     }
 }

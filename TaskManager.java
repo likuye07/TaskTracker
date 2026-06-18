@@ -1,13 +1,10 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.FileWriter;
+import java.util.ArrayList;
 
 public class TaskManager{
     private ArrayList<Task> tasks;
 
     public TaskManager(){
         tasks = new ArrayList<>();
-        createdFileIfNeeded();
     }
     public void addTask(Task task){
         tasks.add(task);
@@ -32,23 +29,40 @@ public class TaskManager{
         Task task = findTaskById(id);
 
         if (task != null){
-            task.setStatus("In-progress");
+            task.setStatus("in-progress");
             return true;
         }
         return false;
     }
     public void listTasks(){
-        if(task.isEmpty()){
+        if(tasks.isEmpty()){
             System.out.println("No tasks found.");
-            return;
-        }
-        for (Task task : tasks){
-            System.out.println("No tasks found");
             return;
         }
         for (Task task : tasks){
             System.out.println(task);
         }
+    }
+
+    public boolean deleteTask(int id){
+        Task task = findTaskById(id);
+
+        if(task != null){
+            tasks.remove(task);
+            return true;
+        }
+        return false;
+    }
+    public boolean markDone(int id){
+
+    Task task = findTaskById(id);
+
+    if(task != null){
+        task.setStatus("done");
+        return true;
+    }
+
+    return false;
     }
     public void listTasksByStatus(String status){
         boolean found = false;
@@ -66,39 +80,5 @@ public class TaskManager{
     }
     public ArrayList<Task> getTasks(){
         return tasks;
-    }
-    private void createdFileIfNeeded(){
-        File file = new File("tasks.json");
-        try {
-            if(!file.exists()){
-                file.createdNewFile();
-                System.out.println("tasks.json created.");
-            }
-        }catch (IOException e){
-            System.out.println("Error creating file.");
-        }
-    }
-    public void saveTasks(){
-        try {
-            FileWriter writer = new FileWriter("tasks.json");
-            writer.write("[\n");
-            for (int i = 0; i < tasks.size(); i++){
-                Task task = task.get(i);
-
-                writer.write(
-                    " {\n" + "  \"id\": " + task.getid() + ",\n" + "  \"description\": \"" + task.getDescription() + "\",\n" + "  \"status\": \" "+ task.getStatus() + "\",\n" + "  \"createdAt\": \" " + task.getCreatedAt() + "\",\n" + "  \"updatedAt\": \"" + task.getUpdatedAt() + "\"\n" + " }");
-                
-                if (i < tasks.size() - 1){
-                    writer.write(",");
-                }
-
-                writer.write("\n");
-            }
-            writer.write("]");
-            write.close();
-        } catch(IOException e){
-            System.out.println("Error saving tasks.");
-        }
-
     }
 }
